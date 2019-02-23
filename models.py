@@ -1,6 +1,9 @@
 import time
+from log import Log
 
 class Conductor:
+    TAG = "Conductor"
+
     def __init__(self, id):
         self.id = id
         self.lapCount = 0
@@ -17,7 +20,7 @@ class Conductor:
             self.initTime = self.lapTime
             self.lapTime = time
             self.lapCount += 1
-            print(str(self.id)+' ==> Vuelta #'+str(self.lapCount)+'. Tiempo: '+str(self.lapTime-self.initTime)+'. Tiempo total: '+str(self.totalTime))   
+            #Log.d(self.TAG, str(self.id)+' ==> Vuelta #'+str(self.lapCount)+'. Tiempo: '+str(self.lapTime-self.initTime)+'. Tiempo total: '+str(self.totalTime))   
 
     def getId(self):
         return self.id

@@ -1,15 +1,16 @@
 from list import ListConductor
 from models import Conductor
 from reader import Reader
+from log import Log
+import requests
+
+TAG = "MAIN"
 
 class Main:
     def __init__ (self):
         self.drivers = ListConductor()
-        self.reader = Reader()
-        while(self.reader.isRunning == False): #Espera hasta que el lector serial se inicie
-            pass
-        self.initLoop()
-            
+        self.reader = Reader(self)
+        self.waitForReader()
 
     def checkQueue(self):
         if(self.reader.queue.isEmpty()):
@@ -17,7 +18,14 @@ class Main:
         else:
             return True
 
+    def waitForReader(self):
+        Log.i(TAG, "Esperando lector...")
+        while(self.reader.isRunning == False): #Espera hasta que el lector serial se inicie
+            pass
+        self.initLoop()
+
     def initLoop(self):
+        Log.i(TAG, "Proceso principal iniciado")
         while True:
             if(self.checkQueue()):
                 queueElement = self.reader.queue.front()
@@ -29,11 +37,18 @@ class Main:
                     self.reader.queue.pop_front()
                 else:
                     self.drivers.push_back(Conductor(queueElement[0]))
-                    print(str(queueElement[0])+' registrado.')
+                    Log.i(TAG, str(queueElement[0])+' registrado.')
             elif(self.reader.isRunning == False):
                 break
+        Log.i(TAG, "Proceso principal terminado")
+        self.waitForReader()
 
     def updateDatabase(self, driver):
-        pass
+        params = {
+            'zzz':'yyy'
+        }
+        req = requests.post("www", params)
+
+        print(req.text)
     
 Main()
