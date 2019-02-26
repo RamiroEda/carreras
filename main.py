@@ -4,51 +4,54 @@ from reader import Reader
 from log import Log
 import requests
 
-TAG = "MAIN"
+TAG = "MAIN  "
+
 
 class Main:
-    def __init__ (self):
+    def __init__(self):
         self.drivers = ListConductor()
         self.reader = Reader(self)
-        self.waitForReader()
+        self.wait_for_reader()
 
-    def checkQueue(self):
-        if(self.reader.queue.isEmpty()):
+    def check_queue(self):
+        if self.reader.queue.is_empty():
             return False
         else:
             return True
 
-    def waitForReader(self):
+    def wait_for_reader(self):
         Log.i(TAG, "Esperando lector...")
-        while(self.reader.isRunning == False): #Espera hasta que el lector serial se inicie
+        while not self.reader.is_running:  # Espera hasta que el lector serial se inicie
             pass
-        self.initLoop()
+        self.init_loop()
 
-    def initLoop(self):
+    def init_loop(self):
         Log.i(TAG, "Proceso principal iniciado")
         while True:
-            if(self.checkQueue()):
-                queueElement = self.reader.queue.front()
-                if(self.drivers.contains(queueElement[0])):
-                    driver = self.drivers.getDriverById(queueElement[0])
-                    if(driver != -1):
-                        driver.updateTimer(queueElement[-1])
+            if self.check_queue():
+                queue_element = self.reader.queue.front()
+                if self.drivers.contains(queue_element[0]):
+                    driver = self.drivers.getDriverById(queue_element[0])
+                    if driver != -1:
+                        driver.update_time(queue_element[-1])
 
                     self.reader.queue.pop_front()
                 else:
-                    self.drivers.push_back(Conductor(queueElement[0]))
-                    Log.i(TAG, str(queueElement[0])+' registrado.')
-            elif(self.reader.isRunning == False):
+                    self.drivers.push_back(Conductor(queue_element[0]))
+                    Log.i(TAG, str(queue_element[0]) + ' registrado.')
+            elif not self.reader.is_running:
                 break
         Log.i(TAG, "Proceso principal terminado")
-        self.waitForReader()
+        self.wait_for_reader()
 
-    def updateDatabase(self, driver):
+    @staticmethod
+    def update_database(driver):
         params = {
-            'zzz':'yyy'
+            'zzz': 'yyy'
         }
         req = requests.post("www", params)
 
         print(req.text)
-    
+
+
 Main()

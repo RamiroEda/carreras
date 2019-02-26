@@ -1,14 +1,16 @@
 from sty import fg
+import sys
+
 
 class Log:
     @staticmethod
     def e(tag, msg):
-        print(fg.red+"ERROR/"+str(tag)+"\t"+str(msg))
+        sys.stdout.write(fg.red+"ERROR/"+str(tag)+"\t\t"+str(msg)+"\n")
 
     @staticmethod
     def i(tag, msg):
-        print(fg.blue+"INFO /"+str(tag)+"\t"+str(msg))
+        sys.stdout.write(fg.blue+"INFO /"+str(tag)+"\t\t"+str(msg)+"\n")
 
     @staticmethod
     def d(tag, msg):
-        print(fg.green+"DEBUG/"+str(tag)+"\t"+str(msg))
+        sys.stdout.write(fg.green+"DEBUG/"+str(tag)+"\t\t"+str(msg)+"\n")
