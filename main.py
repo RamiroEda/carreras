@@ -47,9 +47,12 @@ class Main:
     @staticmethod
     def update_database(driver):
         params = {
-            'zzz': 'yyy'
+            'equipo': driver.id,
+            'tiempo_total': driver.totalTime,
+            'tiempo_vuelta': driver.lapTime,
+            'vuelta': driver.lapTime
         }
-        req = requests.post("www", params)
+        req = requests.post("http://127.0.0.1:8000/listaVueltas/", params)
 
         print(req.text)
 

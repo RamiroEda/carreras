@@ -4,7 +4,7 @@ import time
 from list import List
 from log import Log
 
-PORT = "COM6"  # TODO: Cambiar el puerto si lo necesitamos
+PORT = "COM3"  # TODO: Cambiar el puerto si lo necesitamos
 TAG = "Lector"
 
 
